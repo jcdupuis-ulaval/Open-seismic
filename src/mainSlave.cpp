@@ -186,6 +186,8 @@ if(RS485Serial.available () >0 and readyToTrig == false)
     digitalWrite(Mode,LOW);
     mustSendData = false;
     workerStatus = IDLE;
+    time.clear();
+    data.clear();
   }
 
 
