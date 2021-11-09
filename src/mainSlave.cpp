@@ -39,7 +39,7 @@ ad7768_chip _seismic = {
 		.filt_type = AD7768_FILTER_SINC,
 
 	};
-ad7768_chip configType = _default;
+ad7768_chip configType = _seismic;
 
 // pin declaration
 int dout0 = 3;
@@ -76,7 +76,7 @@ volatile int binary_data[32];
 volatile double integer_data = 0;
 
 
-int number_of_data_packet = 100;
+int number_of_data_packet =1600;
 
 // vector that holds a complete acquisition
 int storage_arrayD[32000]; //TODO: This maximum array size is 1 sec for 32 khz ODR
@@ -98,7 +98,7 @@ void setup() {
   pinMode(chipSelectPin, OUTPUT);
 
 
-  ad7768_setup(_default);
+  ad7768_setup(configType);
   
   
 
