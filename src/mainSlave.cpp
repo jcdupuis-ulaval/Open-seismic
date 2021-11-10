@@ -17,7 +17,7 @@ bool mustSendStatus = false;
 bool mustSendData = false;
 bool readyToTrig = false;
 int workerStatus = IDLE;
-int workerID = 1;
+int workerID = 2;
 int chipSelectPin = 10;
 ad7768_chip _default = {
 		/* Configuration */
@@ -45,9 +45,6 @@ ad7768_chip configType = _seismic;
 int dout0 = 3;
 int clck = 6;
 int drdy = 4;
-
-
-String commande;
 
 
 // ISR functions
