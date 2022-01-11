@@ -32,6 +32,7 @@ while ON:
         ser.write("{} 1".format(command).encode())
         line = ser.read_until('packets : '.encode())
         numberOfSample = int(ser.read_until().decode("utf-8"))
+        numberOfSample=1600
         temps1 = np.zeros((numberOfSample-5))
         seis1 = np.zeros((numberOfSample-5))
         for i in range(numberOfSample-5):
@@ -39,8 +40,10 @@ while ON:
             line = line.decode("utf-8")
             temp = line.split(',')
             if line.count(',') == 1:
+                # print(temp)
                 temps1[i] = int(temp[0])
                 seis1[i] = int(temp[1])
+
         temps1 = (temps1 - temps1[0]) / 1E6
         range_accel = (4.1 - 0.0021) * 2
         seis1 = (seis1 * range_accel) / (2 ** 24)
@@ -58,6 +61,9 @@ while ON:
         ser.write("{} 2".format(command).encode())
         line = ser.read_until('packets : '.encode())
         numberOfSample = int(ser.read_until().decode("utf-8"))
+        # print(numberOfSample)
+        numberOfSample=1600
+
         temps2 = np.zeros((numberOfSample - 5))
         seis2 = np.zeros((numberOfSample - 5))
         for i in range(numberOfSample-5):
@@ -65,6 +71,7 @@ while ON:
             line = line.decode("utf-8")
             temp = line.split(',')
             if line.count(',') == 1:
+                # print(temp)
                 temps2[i] = int(temp[0])
                 seis2[i] = int(temp[1])
         temps2 = (temps2 - temps2[0]) / 1E6
@@ -82,6 +89,9 @@ while ON:
 
         plt.plot(temps1, seis1_mod, label="ADC 1")
         plt.plot(temps2, seis2_mod, label="ADC 2")
+        plt.xlabel("Time [s]")
+        plt.ylabel("Amplitude [V]")
+        plt.legend()
         plt.show()
 
     elif command == 'save':

@@ -42,9 +42,9 @@ ad7768_chip _seismic = {
 ad7768_chip configType = _seismic;
 
 // pin declaration
-int dout0 = 3;
+int dout0 = 2;
 int clck = 6;
-int drdy = 4;
+int drdy = 18;
 
 
 // ISR functions
