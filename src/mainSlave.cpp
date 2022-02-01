@@ -12,6 +12,7 @@
 int Mode = 9; // high = send = D2 led off, low = listen = D2 led high
 command receivedCommand; 
 int ODR;
+int numberOfByte = 32;
 int duration;
 bool mustSendStatus = false;
 bool mustSendData = false;
@@ -101,6 +102,7 @@ int storage_arrayD2[16000]; //TODO: This maximum array size is 0.5 sec for 32 kh
 Vector<int> data2(storage_arrayD2);
 // Vector<int> time(storage_arrayT2);
 
+// When the lenght of the array is 32k the memory is overflowing.
 
 void setup() {
 
@@ -250,9 +252,10 @@ interrupts();
 
 void read_ISR() {
 if (clck_count < 32){ // because the output is 32 bit long
+// delayNanoseconds(10);
 binary_data0[clck_count] = digitalRead(dout0);
-binary_data1[clck_count] = digitalRead(dout1);
-binary_data2[clck_count] = digitalRead(dout2);
+binary_data1[clck_count] = digitalReadFast(dout1);
+binary_data2[clck_count] = digitalReadFast(dout2);
 clck_count += 1;
 
 
@@ -260,9 +263,10 @@ clck_count += 1;
 else if (clck_count == 33){ // directly after the last bit
 	data_packet_ready = true;
 	for (int i = 8; i < 32; i++) { // data bit is from 8 to 32
+      integer_data0 +=  expo[i] * binary_data0[i];
 			integer_data1 +=  expo[i] * binary_data1[i];
       integer_data2 +=  expo[i] * binary_data2[i];
-      integer_data0 +=  expo[i] * binary_data0[i];
+
 			}
 	clck_count += 1;
 
